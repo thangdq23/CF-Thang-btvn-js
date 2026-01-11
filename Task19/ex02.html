@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chia Bill</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+      }
+
+      .container {
+        width: 500px;
+        margin: 60px auto;
+        background: white;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px #ddd;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 30px;
+      }
+
+      .form-group {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        font-weight: bold;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 6px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 12px 30px;
+        background: #1e8e3e;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background: #166c2c;
+      }
+
+      .result {
+        margin-top: 25px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .error {
+        margin-top: 15px;
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Chia Bill</h2>
+
+      <div class="form-group">
+        <label>Tổng bill:</label>
+        <input type="number" id="totalBill" placeholder="Nhập tổng bill..." />
+      </div>
+
+      <div class="form-group">
+        <label>Số người chia:</label>
+        <input type="number" id="people" placeholder="Nhập số người..." />
+      </div>
+
+      <div class="form-group">
+        <label>Tiền tip:</label>
+        <input type="number" id="tip" placeholder="Nhập tiền tip (nếu có)..." />
+      </div>
+
+      <button onclick="calculateBill()">Tính tiền</button>
+
+      <div class="result" id="result"></div>
+      <div class="error" id="error"></div>
+    </div>
+
+    <script>
+      function calculateBill() {
+        const totalBill = document.getElementById("totalBill").value.trim();
+        const people = document.getElementById("people").value.trim();
+        const tip = document.getElementById("tip").value.trim();
+
+        const resultDiv = document.getElementById("result");
+        const errorDiv = document.getElementById("error");
+
+        resultDiv.innerHTML = "";
+        errorDiv.innerHTML = "";
+
+        const total = Number(totalBill);
+        const numPeople = Number(people);
+        const tipAmount = tip === "" ? 0 : Number(tip);
+
+        if (totalBill === "" || total <= 0) {
+          errorDiv.innerText = "Tổng bill phải lớn hơn 0!";
+          return;
+        }
+
+        if (people === "" || numPeople <= 0 || !Number.isInteger(numPeople)) {
+          errorDiv.innerText = "Số người chia phải là số nguyên lớn hơn 0!";
+          return;
+        }
+
+        if (tipAmount < 0) {
+          errorDiv.innerText = "Tiền tip không được nhỏ hơn 0!";
+          return;
+        }
+
+        if (tipAmount > total) {
+          errorDiv.innerText = "Tiền tip không được lớn hơn tổng bill!";
+          return;
+        }
+
+        const totalPay = total + tipAmount;
+        const perPerson = totalPay / numPeople;
+
+        resultDiv.innerHTML = `
+        Mỗi người cần trả: ${perPerson.toFixed(2)} VND <br>
+        Tổng số tiền cần trả: ${totalPay.toFixed(2)} VND
+    `;
+      }
+    </script>
+  </body>
+</html>

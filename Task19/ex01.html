@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bé Tập Tính</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+      }
+
+      .container {
+        width: 500px;
+        margin: 50px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ddd;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .row label {
+        width: 120px;
+      }
+
+      .row input {
+        flex: 1;
+        padding: 8px;
+      }
+
+      .operators {
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background: #1677ff;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #0958d9;
+      }
+
+      .result {
+        margin-top: 15px;
+        padding: 10px;
+        background: #eee;
+        border-radius: 5px;
+        min-height: 20px;
+      }
+
+      .error {
+        color: red;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Bé Tập Tính Website</h2>
+
+      <div class="row">
+        <label>Nhập số thứ nhất</label>
+        <input type="number" id="num1" />
+      </div>
+
+      <div class="row">
+        <label>Nhập số thứ hai</label>
+        <input type="number" id="num2" />
+      </div>
+
+      <div class="operators">
+        <label><input type="radio" name="operator" value="+" /> Cộng</label>
+        <label><input type="radio" name="operator" value="-" /> Trừ</label>
+        <label><input type="radio" name="operator" value="*" /> Nhân</label>
+        <label><input type="radio" name="operator" value="/" /> Chia</label>
+      </div>
+
+      <button onclick="calculate()">Tính</button>
+
+      <div class="result" id="result"></div>
+      <div class="error" id="error"></div>
+    </div>
+
+    <script>
+      function calculate() {
+        const num1 = document.getElementById("num1").value;
+        const num2 = document.getElementById("num2").value;
+        const operators = document.getElementsByName("operator");
+        const resultDiv = document.getElementById("result");
+        const errorDiv = document.getElementById("error");
+
+        resultDiv.innerText = "";
+        errorDiv.innerText = "";
+
+        if (num1 === "" || num2 === "") {
+          errorDiv.innerText = "Vui lòng nhập đầy đủ hai số!";
+          return;
+        }
+
+        let operator = "";
+        for (let op of operators) {
+          if (op.checked) {
+            operator = op.value;
+            break;
+          }
+        }
+
+        if (operator === "") {
+          errorDiv.innerText = "Vui lòng chọn phép tính!";
+          return;
+        }
+
+        const a = Number(num1);
+        const b = Number(num2);
+        let result;
+
+        if (operator === "/" && b === 0) {
+          errorDiv.innerText = "Không thể chia cho 0!";
+          return;
+        }
+
+        switch (operator) {
+          case "+":
+            result = a + b;
+            break;
+          case "-":
+            result = a - b;
+            break;
+          case "*":
+            result = a * b;
+            break;
+          case "/":
+            result = a / b;
+            break;
+        }
+
+        resultDiv.innerText = "Kết quả: " + result;
+      }
+    </script>
+  </body>
+</html>
